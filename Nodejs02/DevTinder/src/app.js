@@ -72,6 +72,7 @@ app.delete("/user", async (req, res) => {
 });
 
 app.patch("/user", async (req, res) => {
+  console.log(req.body);
   const userId = req.body.userId;
 
   const data = req.body;
@@ -79,11 +80,13 @@ app.patch("/user", async (req, res) => {
   try {
     const updatedUser = await User.findByIdAndUpdate({ _id: userId }, data, {
       returnDocument: "after",
+      //&this will now run the validator function whenever the update method will be called.I have to explicitly allow the runValidators.if i know pass gender as "hello",it will basically say === "Something Went Wrong".Because it failed inside the try block and it went to the catch block.
+      runValidators: true,
     });
 
     res.send("User updated successfully");
   } catch (error) {
-    res.status(400).send("Something went wrong");
+    res.status(400).send("UPDATE FAILED :" + error.message);
   }
 });
 
