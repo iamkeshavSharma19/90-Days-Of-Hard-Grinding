@@ -7,7 +7,6 @@
 - Push some documents using API calls from postman
 - Error Handling using try-catch block.
 
-
 # ep07 === Diving deep into the api's.
 
 - JS object vs JSON (difference)
@@ -32,3 +31,5 @@
 - Create a custom validate function for gender
 - Improve the DB schema - PUT all appropriate validations on each field in Schema.
 - Add time stamps to the userSchema.
+- Add API level validation on Patch request and signup post api
+- DATA Sanitization === Add API validation for each field
