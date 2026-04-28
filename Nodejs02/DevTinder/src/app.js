@@ -21,6 +21,9 @@ app.use(express.json());
 app.post("/signup", async (req, res) => {
   const user = new User(req.body);
   try {
+    if (user?.skills.length > 10) {
+      throw new Error("Skills cannot be more than 10");
+    }
     await user.save();
     res.send("User Added successfully");
   } catch (error) {
