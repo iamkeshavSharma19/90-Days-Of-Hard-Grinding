@@ -14,6 +14,8 @@ app.use(express.json());
 
 //!Even if i pass some random data "xyz": "sdsdsdsds", it will again say === user updated successfully.But inside the document no "xyz" field will be created because we have not defined that in our schema.I want if the user is updating his profile,he can only update the certain fields of the profile.Go to the PATCH API.
 
+//&Suppose If I am adding a user and I did'nt pass a correct emailId suppose I passed my emailId as "qweerer" any random string not in the correct email format === and still the user will be successfully added.If you will not put validations for this then that will be a bad job for you.Validating an emailId is not a easy job.For validations you can also take the help of an external library and there is a very famous library known as npm validator.You can use this library and then you can validate your emailId very easily.Let us now install it using === "npm i validator".Now with this I can add a API level validation also and I can also add a db level validation.For now I am adding a schema level validation,for this Go to the User Schema.
+
 //~Go to the user schema
 
 app.post("/signup", async (req, res) => {

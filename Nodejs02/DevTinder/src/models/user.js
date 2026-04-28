@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import validator from "validator";
 
 const userSchema = new mongoose.Schema(
   {
@@ -42,6 +43,14 @@ const userSchema = new mongoose.Schema(
     password: {
       type: String,
       required: true,
+      //~Validator package can also check that weather the entered password is a strong password or not ??
+
+      //~Go and also explore the npm validator package documentation also
+      validate(value) {
+        if (!validator.isStrongPassword(value)) {
+          throw new Error("Enter a Strong Password: " + value);
+        }
+      },
     },
     age: {
       //?Suppose if you are having type as a number, then you can also add the min value and the max value,suppose on the age only I want my users should be atleast of 18 years of age,to sign up on the Dev Tinder
@@ -76,11 +85,25 @@ const userSchema = new mongoose.Schema(
 
       //!there is also a function for trim suppose if the user is kind of sending the email id with some spaces,there are some spaces in the front and then there are some spaces in the back.A new user can be created with the same email-id but with spaces, MongoDB treated that email id with spaces as a different email id and a new user was inserted into our database.Ideally we should trim our email id's.Ideally we should trim our email id's before we save it onto our database.I donot want spaces in my email id.trim will remove the extra spaces from the front and back only.
       trim: true,
+      //^for validating the emailId,first of all I will write my validate function.
+      //^first of all let us import validator package from the node_modules.
+      validate(value) {
+        if (!validator.isEmail(value)) {
+          throw new Error("Invalid email address" + value);
+        }
+      },
     },
     photoUrl: {
       type: String,
       //&Adding a default image url over here.So if you dont give a photo then by default it will take this below photo url.Let us enter Mark Zuckerberg into our database.
+
+      //^with the help of the validator package you can even validate that your profile photo url should be an actual url,may be suppose somebody started giving a string or a simple text into the photo url and you donot want that
       default: "https://geographyandyou.com/images/user-profile.png",
+      validate(value) {
+        if (!validator.isURL(value)) {
+          throw new Error("Invalid Photo url: " + value);
+        }
+      },
     },
     about: {
       type: String,

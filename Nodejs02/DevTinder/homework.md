@@ -33,3 +33,6 @@
 - Add time stamps to the userSchema.
 - Add API level validation on Patch request and signup post api
 - DATA Sanitization === Add API validation for each field
+- Install validator package
+- Explore the Validator functions/npm validator documentation and use validator functions for password, email and photo url
+- NEVER TRUST req.body
