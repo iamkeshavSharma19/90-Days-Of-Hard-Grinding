@@ -1,33 +1,97 @@
 import express from "express";
 import { connectDB } from "./config/database.js";
 import { User } from "./models/user.js";
+import { validateSignUpData } from "./utils/validation.js";
+import bcrypt from "bcrypt";
 
 const app = express();
 
 app.use(express.json());
 
-//&These POST API'S AND Patch api's are the ones which are inserting some data into the database.How will you insert data into the database?Either some user registers onto your application,or if the user is trying to update his profile.These are basically the 2 api's where you basically need to have strict checks.Even before putting some checks inside these api's we should basically add some checks inside the database itself, inside the schema itself.
+//&our passwords should not be stored in the form of plain text into our database.Because these passwords are readable.I can read it.A password should be stored in a hash format.Password should be stored in an encrypted format.Nobody should be able to see the password in our database.
 
-//~Let us now also talk about the API Level validations.First of all let me talk about what is the problem with our api's.Somebody is signing onto our platform, when the user is signing up, I donot need all the information about the user.I donot need the age of the user,I also donot even need the skills, I donot also need the photo id of the user.I donot need the lot of other things.Basically I just want to take 4 fields.Think about a UI where you have a Sign up form which asks for your firstName, your lastName, your emailId, your password and it just signs you up for the application.
-
-//?Now also, suppose if I try to update the emailId of any user document, will I be able to do it ??Yes it will update it.But what if I donot want any of my users to update the emailId once he has registered.Because it will be a very big problem for us.emailId is a very sensitive thing.The user can then completely change his identity.Suppose if the user is signing up for the first time,they have given me some emailId,Now emailId change is not allowed.I donot want emailId to be changed when I am updating my user.For this I need to put the api level validation.
-
-//!Even if i pass some random data "xyz": "sdsdsdsds", it will again say === user updated successfully.But inside the document no "xyz" field will be created because we have not defined that in our schema.I want if the user is updating his profile,he can only update the certain fields of the profile.Go to the PATCH API.
-
-//&Suppose If I am adding a user and I did'nt pass a correct emailId suppose I passed my emailId as "qweerer" any random string not in the correct email format === and still the user will be successfully added.If you will not put validations for this then that will be a bad job for you.Validating an emailId is not a easy job.For validations you can also take the help of an external library and there is a very famous library known as npm validator.You can use this library and then you can validate your emailId very easily.Let us now install it using === "npm i validator".Now with this I can add a API level validation also and I can also add a db level validation.For now I am adding a schema level validation,for this Go to the User Schema.
-
-//~Go to the user schema
+//~But before doing that we will first of all improve our signUp api.Basically this sign up api is for registering a new user.Suppose a new user is coming onto our website,this is the entry point of any user to our application.Never trust req.body.An attacker can send any malacious data into this req.body and that will be stored into the database.Our sign up api should be very very safe.
 
 app.post("/signup", async (req, res) => {
-  const user = new User(req.body);
+  //^Step 1 === even before we create the new instance of the user model first thing should be as soon as someone hit the sign up api,first thing that should happen is the validation of the data.First thing is validating the data.if the data is not correct throw an error send a error response and do'nt let the user register onto your platform.The first thing should be the validation of the data.
+
+  //?Sometimes we create some utility or helper functions where we will basically validate our data.This is the best Industry Practice.You should not do everything inside the sign up api you should create helper functions.in the src let us create one new folder utils,you can also call these functions as the utility functions.Let me create a file validation.js.In this file I will now do all kind of validations on my data.Let us go to the file validation.js.In will basically send this req object as the parameter to the validator function.All these validations do it inside a try catch block because suppose if any of the validations is failing and I am throwing a new error,whenever you will throw this new error and if you are doing it insde a try-catch then the catch block will catch that error and that error will be sent back to the api
+  // validateSignUpData(req)
   try {
+    validateSignUpData(req);
+    //*Step2 === After that then you should encrypt the password
+
+    //*After that then you should store user into the database.
+
+    //*for encrypting the password I will use a npm package known as Bcrypt.This package basically gives you functions to hash your password and then also to validate your password. "npm i bcrypt".Now I will basically do the bcrypt.hash().
+
+    //&when you do bcrypt.hash(),it will return you a promise back
+    const { firstName, lastName, emailId, password } = req.body;
+    //~to hash a password you basically need some encryption algorithms,when you do a bcrypt.hash(),it creates a hash using a salt and a plain password and then how many number of rounds that salt should be applied to create the password.The more the number of salt rounds the tougher the password to dcrypt.The good or a basic number is 10.
+
+    //?When you encrypt a password.Now suppose your password is Brock@123.You want to encrypt this Brock@123.You need a salt.This salt is basically a random string.It could be something like this === "dfdfj9890@123q###" with some random characters.Now you take your plain password and your salt and then you do a multiple rounds of encryption.this is called as salt rounds.with the help of bcrypt.genSalt(),you can also generate a random salt also.10 rounds is basically a standard good number.
+
+    //~After hashing the password we will now talk about How to implement the Login functionality.We will create a login api.Suppose the user has signed Up,now we want to validate this password also.
+    const passwordHash = await bcrypt.hash(password, 10);
+
+    console.log(passwordHash);
+    //!this below way is the very bad way of creating an instance to directly get the req.body and pass everything inside it.
+
+    //!A good way is to explicitly mention all the fields
+    // const user = new User(req.body);
+    //!So what all fields I want
+    const user = new User({
+      firstName,
+      lastName,
+      emailId,
+      password: passwordHash,
+    });
+    console.log(user);
+
     if (user?.skills.length > 10) {
       throw new Error("Skills cannot be more than 10");
     }
+
     await user.save();
     res.send("User Added successfully");
   } catch (error) {
-    res.status(400).send("Error saving the user:" + error.message);
+    res.status(400).send("ERROR:" + error.message);
+  }
+});
+
+//^Let us now create Login API
+app.post("/login", async (req, res) => {
+  try {
+    //^this login id will basically take your emailId and password and it will validate that weather this emailId and password is correct or not.
+    //^first of all I will extract my emailId and password from this req.body
+    const { emailId, password } = req.body;
+    //todo === Validate the emailId.Homework write that code by yourself
+
+    //~Suppose a user is trying to login with some random email Id,this emailId is not there in my database,so first of all I will check that whether this user is present in my database or not ?? if in the database the user is present then I will check that whether the password is correct or not ???first of all I will check that the person who is trying to enter / login,is the email id is present in my database or not ???
+
+    //^Suppose the emailId is valid then from the database I will get the user object.If my emailId is not valid then my user will be null or undefined.
+    const user = await User.findOne({ emailId: emailId });
+
+    if (!user) {
+      throw new Error("Invalid Credentials");
+    }
+
+    //*Now suppose If I got the user back and if the user with that emailId is present in my database,now I will compare the password which we have got from the request with the password which is stored in my db i.e user.password
+
+    //?there is a function === bcrypt.compare and it returns you a boolean value.
+
+    //*Now I will check if my password is valid or not ???
+    const isPassWordValid = await bcrypt.compare(password, user.password);
+
+    //&If my password is valid then I will just send the response back.
+
+    if (isPassWordValid) {
+      res.send("Login Successful!!");
+    } else {
+      throw new Error("Invalid credentials");
+    }
+  } catch (err) {
+    res.status(400).send("ERROR: " + err.message);
   }
 });
 
@@ -83,47 +147,15 @@ app.delete("/user", async (req, res) => {
 });
 
 app.patch("/user/:userId", async (req, res) => {
-  //&API Level validations === I want in my req.body,if my emailId is coming then ignore it.I donot want emailId to be updated.
-
-  //todo === user can update and also add 1000 skills so can you add a validation for this ?This is your homework.You should basically add validaitons to almost everything.Never trust the user data.attackers can attack your api's and they can also send the malacious data and your db can break.what if the user is sending 1 million skills into our database ??
   console.log(req.body);
-  //?Instead of getting my userId from the body,i can get my userId from the url also.in future we will use cookies and headers to fetch this userId.Now in this case my userId will basically come from the req.params.userId
+
   const userId = req.params?.userId;
 
   const data = req.body;
 
-  const ALLOWED_UPDATES = [
-    //& If you want to change your photoUrl you can change it, similarly about, gender, age
-
-    //& I want my user to change these things only nothing else.
-
-    //& user should not be able to change his firstName, lastName and emailId
-
-    "photoUrl",
-    "about",
-    "gender",
-    "age",
-    "skills",
-  ];
-
-  //& Now I will basically validate my req.body data
-
-  //~Let us create a function isUpdateAllowed
-
-  /* 
-  {
-    "firstName": "Randy",
-    "lastName": "Orton",
-    "emailId": "Randy123@gmail.com",
-    "password": "Viper@2468",
-    "gender": "male",
-    "about": "I hear voices in my head they come to me and say They talk to me!",
-    "skills": ["RKO", "wrestling", "bodybuilding"]
-}
-  */
+  const ALLOWED_UPDATES = ["photoUrl", "about", "gender", "age", "skills"];
 
   try {
-    //todo === Here I am just looping through all of these keys of the req.body object{pasted in the above comment} and I will make sure that every key is present in the allowed updates.So it will check is userId allowed over here ?emailId is allowed,no this email id is not allowed,gender alllowed.skills are also allowed.If any of this is not allowed then my isUpdateAllowed will be false.It will check for every key should be included in the ALLOWED_UPDATES.If any of the key is not present in it then I can just throw my error.You should always sanitize everything.
     const isUpdateAllowed = Object.keys(data).every((k) =>
       ALLOWED_UPDATES.includes(k),
     );
@@ -138,7 +170,7 @@ app.patch("/user/:userId", async (req, res) => {
 
     const updatedUser = await User.findByIdAndUpdate({ _id: userId }, data, {
       returnDocument: "after",
-      //&this will now run the validator function whenever the update method will be called.I have to explicitly allow the runValidators.if i know pass gender as "hello",it will basically say === "Something Went Wrong".Because it failed inside the try block and it went to the catch block.
+
       runValidators: true,
     });
 
@@ -151,8 +183,6 @@ app.patch("/user/:userId", async (req, res) => {
 connectDB()
   .then((res) => {
     console.log("Database connection established...");
-
-    // console.log(res);
 
     app.listen(7777, () => {
       console.log("App is listening on Port 7777...");
