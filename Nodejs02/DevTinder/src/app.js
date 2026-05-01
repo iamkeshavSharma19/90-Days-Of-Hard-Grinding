@@ -9,25 +9,11 @@ const app = express();
 app.use(express.json());
 
 app.post("/signup", async (req, res) => {
-  //^Step 1 === even before we create the new instance of the user model first thing should be as soon as someone hit the sign up api,first thing that should happen is the validation of the data.First thing is validating the data.if the data is not correct throw an error send a error response and do'nt let the user register onto your platform.The first thing should be the validation of the data.
-
-  //?Sometimes we create some utility or helper functions where we will basically validate our data.This is the best Industry Practice.You should not do everything inside the sign up api you should create helper functions.in the src let us create one new folder utils,you can also call these functions as the utility functions.Let me create a file validation.js.In this file I will now do all kind of validations on my data.Let us go to the file validation.js.In will basically send this req object as the parameter to the validator function.All these validations do it inside a try catch block because suppose if any of the validations is failing and I am throwing a new error,whenever you will throw this new error and if you are doing it insde a try-catch then the catch block will catch that error and that error will be sent back to the api
-  // validateSignUpData(req)
   try {
     validateSignUpData(req);
-    //*Step2 === After that then you should encrypt the password
 
-    //*After that then you should store user into the database.
-
-    //*for encrypting the password I will use a npm package known as Bcrypt.This package basically gives you functions to hash your password and then also to validate your password. "npm i bcrypt".Now I will basically do the bcrypt.hash().
-
-    //&when you do bcrypt.hash(),it will return you a promise back
     const { firstName, lastName, emailId, password } = req.body;
-    //~to hash a password you basically need some encryption algorithms,when you do a bcrypt.hash(),it creates a hash using a salt and a plain password and then how many number of rounds that salt should be applied to create the password.The more the number of salt rounds the tougher the password to dcrypt.The good or a basic number is 10.
 
-    //?When you encrypt a password.Now suppose your password is Brock@123.You want to encrypt this Brock@123.You need a salt.This salt is basically a random string.It could be something like this === "dfdfj9890@123q###" with some random characters.Now you take your plain password and your salt and then you do a multiple rounds of encryption.this is called as salt rounds.with the help of bcrypt.genSalt(),you can also generate a random salt also.10 rounds is basically a standard good number.
-
-    //~After hashing the password we will now talk about How to implement the Login functionality.We will create a login api.Suppose the user has signed Up,now we want to validate this password also.
     const passwordHash = await bcrypt.hash(password, 10);
 
     console.log(passwordHash);
