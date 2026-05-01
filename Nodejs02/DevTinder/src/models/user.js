@@ -5,11 +5,9 @@ const userSchema = new mongoose.Schema(
   {
     firstName: {
       type: String,
-      //!Now user will definitely have to give a firstName, otherwise mongoose will not allow the insertion into the database.Mongoose will not allow the insertion of documents into the collection.
 
-      //&Suppose if you want that atleast your firstName should be of the minimum length of 4 characters,my name should be of atleast 4 characters.Now if I try to enter the user with 3 characters then mongoose will again throw the error.This is how you can add much more validations
       minLength: 4,
-      //~Now suppose the maximum length of the name should be 50 charaacters,there should not be a name more than 100 characters.
+
       maxLength: 50,
       required: true,
     },

@@ -8,6 +8,10 @@ const app = express();
 
 app.use(express.json());
 
+//&our passwords should not be stored in the form of plain text into our database.Because these passwords are readable.I can read it.A password should be stored in a hash format.Password should be stored in an encrypted format.Nobody should be able to see the password in our database.
+
+//~But before doing that we will first of all improve our signUp api.Basically this sign up api is for registering a new user.Suppose a new user is coming onto our website,this is the entry point of any user to our application.Never trust req.body.An attacker can send any malacious data into this req.body and that will be stored into the database.Our sign up api should be very very safe.
+
 app.post("/signup", async (req, res) => {
   //^Step 1 === even before we create the new instance of the user model first thing should be as soon as someone hit the sign up api,first thing that should happen is the validation of the data.First thing is validating the data.if the data is not correct throw an error send a error response and do'nt let the user register onto your platform.The first thing should be the validation of the data.
 
@@ -55,17 +59,31 @@ app.post("/signup", async (req, res) => {
   }
 });
 
+//^Let us now create Login API
 app.post("/login", async (req, res) => {
   try {
+    //^this login id will basically take your emailId and password and it will validate that weather this emailId and password is correct or not.
+    //^first of all I will extract my emailId and password from this req.body
     const { emailId, password } = req.body;
+    //todo === Validate the emailId.Homework write that code by yourself
 
+    //~Suppose a user is trying to login with some random email Id,this emailId is not there in my database,so first of all I will check that whether this user is present in my database or not ?? if in the database the user is present then I will check that whether the password is correct or not ???first of all I will check that the person who is trying to enter / login,is the email id is present in my database or not ???
+
+    //^Suppose the emailId is valid then from the database I will get the user object.If my emailId is not valid then my user will be null or undefined.
     const user = await User.findOne({ emailId: emailId });
 
     if (!user) {
       throw new Error("Invalid Credentials");
     }
 
+    //*Now suppose If I got the user back and if the user with that emailId is present in my database,now I will compare the password which we have got from the request with the password which is stored in my db i.e user.password
+
+    //?there is a function === bcrypt.compare and it returns you a boolean value.
+
+    //*Now I will check if my password is valid or not ???
     const isPassWordValid = await bcrypt.compare(password, user.password);
+
+    //&If my password is valid then I will just send the response back.
 
     if (isPassWordValid) {
       res.send("Login Successful!!");
