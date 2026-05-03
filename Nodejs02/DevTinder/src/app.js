@@ -20,6 +20,8 @@ app.use(cookieParser());
 
 //~Inside the src,create a new middlewares folder.Inside that middleware create a new file === auth.js
 
+//^Last poriton === There is something known as Mongoose Schema methods.Let us meet at the user schema.
+
 app.post("/signup", async (req, res) => {
   try {
     validateSignUpData(req);
@@ -28,7 +30,7 @@ app.post("/signup", async (req, res) => {
 
     const passwordHash = await bcrypt.hash(password, 10);
 
-    console.log(passwordHash);
+    //console.log(passwordHash);
     //!this below way is the very bad way of creating an instance to directly get the req.body and pass everything inside it.
 
     //!A good way is to explicitly mention all the fields
@@ -40,7 +42,7 @@ app.post("/signup", async (req, res) => {
       emailId,
       password: passwordHash,
     });
-    console.log(user);
+    //console.log(user);
 
     if (user?.skills.length > 10) {
       throw new Error("Skills cannot be more than 10");
@@ -52,6 +54,7 @@ app.post("/signup", async (req, res) => {
     res.status(400).send("ERROR:" + error.message);
   }
 });
+//~So basically when I am logging up the user,so what I am trying to do is,I am creating this jwt token,and I am passing this userId.I am secretly injecting this user_id into the token.So basically this jwt.sign() method is very closely related to the user.Every user will basically have a different JWT token.So you can just offload these things to the userSchema methods.
 
 app.post("/login", async (req, res) => {
   try {
@@ -65,7 +68,9 @@ app.post("/login", async (req, res) => {
       throw new Error("Invalid Credentials");
     }
 
-    const isPassWordValid = await bcrypt.compare(password, user.password);
+    const isPassWordValid = await user.validatePassword(password);
+
+    // const isPassWordValid = await bcrypt.compare(password, user.password);
 
     if (isPassWordValid) {
       //^Suppose if the email as well as the password is validated then here I will write the whole logic about the cookie and the Jwt token.
@@ -87,9 +92,13 @@ app.post("/login", async (req, res) => {
 
       //!Along with the token,you can also expire your cookies,Go to the expressJs.com docs,and search over here the cookies and go to the res.cookies.
 
-      const token = await jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
-        expiresIn: "1d",
-      });
+      //^instead of signing the token over here,I can also get the token from my userSchema method.I can just offload this jwt creation token logic to my handler method into my schema method and these are like helper methods only.Let us meet at the userSchema.
+
+      // const token = await jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
+      //   expiresIn: "1d",
+      // });
+      //?this getJWT() method can now be directly called onto this user instance.Any current user who has logged in,that user's token will be come back.It will be returned from this getJWT() method.And we donot have to take care about any other logic.We have offloaded that logic to our schema methods.
+      const token = await user.getJWT();
 
       //!After this I will send this token back to the user.
 
@@ -113,7 +122,11 @@ app.post("/login", async (req, res) => {
 
       //^Now the login job is done.When the user is coming with the emailId and password,and the emailId and the password is correct.Creating a token,hiding the userId inside it and then sending it back to the user.Now let me hit the "/login api"
 
-      res.cookie("token", token);
+      //?Expiring the cookie in 8 hours.Let me login once again,if I login once again and If I go to my cookies.You will basically see expires on.When the cookie will be expired.
+
+      res.cookie("token", token, {
+        expires: new Date(Date.now() + 8 * 3600000),
+      });
       res.send("Login Successful!!");
     } else {
       throw new Error("Invalid credentials");
