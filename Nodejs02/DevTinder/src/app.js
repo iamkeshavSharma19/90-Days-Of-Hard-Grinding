@@ -91,7 +91,6 @@ app.post("/login", async (req, res) => {
         expiresIn: "1d",
       });
 
-      
       //!After this I will send this token back to the user.
 
       //!Basically everytime I hit the login api,everytime this jwt token is new and unique and it is not the older token,and this new unique token always replaces the older token stored inside the POSTMAN.
@@ -148,7 +147,6 @@ app.get("/profile", userAuth, async (req, res) => {
     //~Validating the token === So I will basically use the method which is given to us by JWT and it is known as jwt.verify().This jwt.verify() does'not give you a boolean.It basically gives you a decoded value.This decodedMessage is nothing but the userId.This iat is something which is used by jwt.
 
     //~Everytime you log in,it will basically create a new token.But the userId will always be hidden inside that new token.
-    
 
     //?I can just read my _id from this decoded message is'nt it?
 
