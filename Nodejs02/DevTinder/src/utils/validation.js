@@ -28,4 +28,24 @@ export const validateSignUpData = (req) => {
   }
 };
 
+export const validateEditProfileData = (req) => {
+  //~In this req,I donot want the user to edit everything.In my userSchema there are so many things,first of all let us check the allowedEditFields
+  const allowedEditFields = [
+    "firstName",
+    "lastName",
+    "emailId",
+    "photoUrl",
+    "gender",
+    "age",
+    "about",
+    "skills",
+  ];
+
+  const isEditAllowed = Object.keys(req.body).every((field) =>
+    allowedEditFields.includes(field),
+  );
+
+  return isEditAllowed;
+};
+
 //todo === NOTE === even if some validations are not properly checked by our validate function then also our mongoose schema validations will still be checked by the mongoose before saving any user onto our database.

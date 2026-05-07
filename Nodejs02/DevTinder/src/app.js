@@ -47,6 +47,10 @@ app.use("/", requestRouter);
 
 //~Now after refactoring a lot of code,let us now test these api's one by one.Atleast let us test the api of auth signUp and login api.Let us signUp "MS Dhoni"
 
+//&we have already created the "/signUp" and "/login" api, now let us create the "/logout" api,we will meet again at the authRouter.
+
+//^Let us now create the "/profile/edit" api and then we will wind up the today session.Let us now meet at the profile.js file.
+
 //?writing the signup logic in the auth.js file inside the routes folder.
 
 //?writing the signup logic in the auth.js file inside the routes folder.
