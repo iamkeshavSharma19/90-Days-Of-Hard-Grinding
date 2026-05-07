@@ -9,6 +9,18 @@ import cookieParser from "cookie-parser";
 import jwt from "jsonwebtoken";
 import { userAuth } from "./middlewares/auth.js";
 
+//&Right now what we are doing is,we have just 1 app.js file,and we are writing all our api's over here.Suppose If I had 100 of api's,so shall we write 100 of api's in the same file??No
+
+//~Instead we will create the expressRouter,and you handle routing in a proper way using express router.Go to the expressJS documentation,in the left side bar under express Go to the express.Router().Or directly in the search bar search for the express.Router().We will use this expressRouter to manage our api's effeciently,and we will group or api's into the different types of Routers.We will group our api's into the small-small categories,and we will create separate routers for all of them.And those routers will basically handle these routes.
+
+//?How will I distinguish the api's is api's related to Auth like == "/signup", "/login", "/logout".So I can basically create a auth Router.And I will add all these 3 api's inside my authRouter.
+
+//! In your src folder create a routes folder over here.All the routes will be managed by this route folder.Inside routes folder create auth.js file.auth.js file will manage the routes specific to the auth.
+
+//!let us meet at the auth.js file.
+
+//*inside routers folder let us also create a new file with the name as profile.js 
+
 const app = express();
 const PORT = process.env.PORT || 7777;
 
@@ -16,62 +28,10 @@ app.use(express.json());
 
 app.use(cookieParser());
 
-app.post("/signup", async (req, res) => {
-  try {
-    validateSignUpData(req);
+//?writing the signup logic in the auth.js file inside the routes folder.
 
-    const { firstName, lastName, emailId, password } = req.body;
+//?writing the signup logic in the auth.js file inside the routes folder.
 
-    const passwordHash = await bcrypt.hash(password, 10);
-
-    const user = new User({
-      firstName,
-      lastName,
-      emailId,
-      password: passwordHash,
-    });
-
-    if (user?.skills.length > 10) {
-      throw new Error("Skills cannot be more than 10");
-    }
-
-    await user.save();
-    res.send("User Added successfully");
-  } catch (error) {
-    res.status(400).send("ERROR:" + error.message);
-  }
-});
-
-app.post("/login", async (req, res) => {
-  try {
-    const { emailId, password } = req.body;
-    // console.log(emailId);
-    // console.log(password);
-
-    const user = await User.findOne({ emailId: emailId });
-
-    if (!user) {
-      throw new Error("Invalid Credentials");
-    }
-
-    const isPassWordValid = await user.validatePassword(password);
-
-    // const isPassWordValid = await bcrypt.compare(password, user.password);
-
-    if (isPassWordValid) {
-      const token = await user.getJWT();
-
-      res.cookie("token", token, {
-        expires: new Date(Date.now() + 8 * 3600000),
-      });
-      res.send("Login Successful!!");
-    } else {
-      throw new Error("Invalid credentials");
-    }
-  } catch (err) {
-    res.status(400).send("ERROR: " + err.message);
-  }
-});
 
 app.get("/profile", userAuth, async (req, res) => {
   try {
