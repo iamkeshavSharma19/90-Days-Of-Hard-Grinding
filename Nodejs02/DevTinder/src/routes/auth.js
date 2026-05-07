@@ -1,7 +1,9 @@
 //^Creating a express router.
 //^first of all import express.
 import express from "express";
-
+import { validateSignUpData } from "../utils/validation.js";
+import { User } from "../models/user.js";
+import bcrypt from "bcrypt";
 const authRouter = express.Router();
 
 //&SignUp API
@@ -62,7 +64,5 @@ authRouter.post("/login", async (req, res) => {
     res.status(400).send("ERROR: " + err.message);
   }
 });
-
-
 
 export default authRouter;
