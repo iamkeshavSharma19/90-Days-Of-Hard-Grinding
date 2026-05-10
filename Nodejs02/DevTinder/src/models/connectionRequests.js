@@ -40,6 +40,26 @@ const connectionRequestSchema = new mongoose.Schema(
   },
 );
 
+//?Creating Compound Indexes
+//&Basically this 1 over here means the ascending order and -1 means the descending order.
+connectionRequestSchema.index({ fromUserId: 1, toUserId: 1 });
+
+//^There is something known as Schema Pre.Go to the mongoose docs and in the left search bar search "pre".This pre is basically a function.basically you have to google == "mongoose schema pre".This pre is kind of like a middleware.
+//*whenever you are writing a schema method or you are writing some pre function,So always try to write normal function, not a arrow function.
+//?What is this pre method and when this will be called?This is kind of like a middleware,it will be called everytime,the connectionRequest document will be saved onto our database.Any time you are saving the connectionRequest.whenever you will call a save() method.whenever you will call this save() method over here.So it will be called pre save.That is why the name is pre.This pre means that I am calling this middleware pre save.This "save" here is basically kind of like an event.It is kind of like a event handler.Before I save the document this function will be called.So you can basically do a lot of validations as well as check over here.
+connectionRequestSchema.pre("save", function () {
+  const connectionRequest = this;
+  //!Check if the fromUserId is same as toUserId.This is kind of like a validation before saving.
+  //!But you cannot directly compare the ObjectId,the type of this fromUserId is ObjectId._id is present inside the ObjectId,it is not a string exactly.So basically you have to parse things up.basically there is a function equals.
+  if (connectionRequest.fromUserId.equals(connectionRequest.toUserId)) {
+    throw new Error("You cannot send connection request to yourself");
+  }
+
+  //&This happens before you saving the document,everytime before you save,this middleware function will be called.
+  //?you can this same thing at the API level also.
+  // next();
+});
+
 const ConnectionRequestModel = new mongoose.model(
   "ConnectionRequest",
   connectionRequestSchema,
