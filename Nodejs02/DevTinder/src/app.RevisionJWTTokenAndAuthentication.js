@@ -80,6 +80,7 @@ app.post("/login", async (req, res) => {
       //^ let me now tell you how to create this jwt token and how do you put it inside the cookie and send back.for that we will be using one more npm package which is known as jsonwebtoken.This is a very famous library for creating json tokens.Inside it we are having methods like jwt.sign() and jwt.verify().jwt.verify() is used for the verification and jwy.sign() is used for creating the token.
 
       //~Let us first of all install the jsonwebtoken package. "npm i jsonwebtoken"
+      
 
       //&Step 1 === Create a JWT Token
       //&When I am creating a token I can basically hide some data,what I will hide is,I will hide the userId.Basically when you hit the login api,this emailId will come,Now I will find in my database that whether this emailId exists or not? and whether the password is valid or not?If this emailId and password comes in.And my email and password is validated._id is the same object_id of the user which is present inside the mongodb.
