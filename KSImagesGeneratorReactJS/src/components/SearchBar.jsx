@@ -4,7 +4,7 @@ import { useImageResult } from "../hooks/useImageResult";
 const SearchBar = () => {
   const [searchQuery, setSearchQuery] = useState("");
   console.log(searchQuery);
-  //useImageResult();
+  const json = useImageResult();
   return (
     <div className="flex flex-row justify-center items-center">
       <div className="m-6 p-6 ">
