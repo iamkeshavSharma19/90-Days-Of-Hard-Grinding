@@ -16,6 +16,10 @@ app.use(express.json());
 
 app.use(cookieParser());
 
+//&Ep13 === ref,populate And Thought process of writing API'S.Now let us just focus on building our Next API which is the "review/request" API.This review request api is basically for the receiver's end.Suppose if a lot of people are sending me the connection Requests,Suppose you are sending me the connectionRequest,So now I will hit a review api,review means I am reviewing my connection Requests.In the review I can either accept this connectionRequest,or I can reject this connectionRequest.
+
+//~There will be one api for accepting the connectionRequest,and one api would be there for rejecting the connectionRequest.The logic for both these api's will be very very same.You donot have to make 2 different api's for accepting and rejecting the connectionRequest.I will write the code for this API inside the connectionRequest router.Go to the routes folder inside request.js.
+
 app.use("/", authRouter);
 
 app.use("/", profileRouter);

@@ -16,7 +16,8 @@
  - POST /request/send/status/:userId === The status can be either ignored or interested.
  
 
- - POST /request/review/accepted/:requestId
+ - POST /request/review/:status/:requestId
+ - sample of How the above api will look
  - POST /request/review/rejected/:requestId
 
 ## userRouter
