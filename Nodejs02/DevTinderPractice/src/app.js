@@ -9,8 +9,25 @@ const PORT = process.env.PORT || 7778;
 console.log(process.env.MONGODB_URI);
 console.log(process.env.PORT);
 
-connectDB();
+const returnedValue = connectDB();
 
-app.listen(7777, () => {
-  console.log("App is listening on the Port 7777");
-});
+console.log(returnedValue);
+
+console.log(returnedValue);
+
+connectDB()
+  .then((res) => {
+    console.log(res); //mongoose object
+
+    console.log("Database connection established");
+
+    app.listen(PORT, (err) => {
+      if (err) {
+        console.log(err);
+      }
+      console.log(`App is listening on Port ${PORT};`);
+    });
+  })
+  .catch((err) => {
+    console.log("Database cannot be connected");
+  });

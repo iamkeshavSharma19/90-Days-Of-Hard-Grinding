@@ -1,19 +1,13 @@
 import mongoose from "mongoose";
 
-export const connectDB = () => {
-  const p1 = mongoose.connect(process.env.MONGODB_URI);
-
-  console.log(process.env.MONGODB_URI);
-
-  console.log(p1);
-
-  p1.then((res) => {
-    console.log("Promise Resolved");
-    console.log(res);
-    console.log(p1);
-  }).catch((err) => {
-    console.log(err);
-  });
+export const connectDB = async () => {
+  try {
+    const promiseResult = await mongoose.connect(process.env.MONGODB_URI); //mongoose object
+    console.log("Checking Async And Await");
+    console.log(promiseResult);
+    return promiseResult;
+  } catch (error) {
+    console.log(error);
+  }
 };
-
 
