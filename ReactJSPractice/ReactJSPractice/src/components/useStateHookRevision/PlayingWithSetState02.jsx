@@ -2,6 +2,7 @@ import { useState } from "react";
 
 const PlayingWithSetState02 = () => {
   const [number, setNumber] = useState(0);
+  console.log(number);
 
   return (
     <>
@@ -9,10 +10,14 @@ const PlayingWithSetState02 = () => {
       <button
         onClick={() => {
           setNumber(number + 5);
+          console.log(number);
+          setNumber(42);
           setNumber((n) => {
             return n + 1;
           });
-          setNumber(42);
+          console.log(number);
+
+          console.log(number);
         }}
       >
         Increase the number

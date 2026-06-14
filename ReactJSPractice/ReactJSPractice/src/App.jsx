@@ -35,9 +35,10 @@ const App = () => {
     // </ContextProvider>
     // <Context />
     //?<Parent /> here is a children Props
-    <ContextExample>
-      <Parent />
-    </ContextExample>
+    // <ContextExample>
+    //   <Parent />
+    // </ContextExample>
+    <PlayingWithSetState02 />
   );
 };
 
