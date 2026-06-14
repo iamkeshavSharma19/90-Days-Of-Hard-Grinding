@@ -18,6 +18,8 @@ import ContextParent from "./components/ContextRevisionInReact/ContextParent";
 import Parent from "./components/ContextHookPracticeByFollowing/Parent";
 import ContextExample from "./components/ContextHookPracticeByFollowing/ContextExample";
 import ControlledForms1 from "./components/ControlledFormsWithLocalStorageByFollowing/ControlledForms1";
+import TodoApp from "./components/TodoAppByFollowing/TodoApp";
+import TodoContextProvider from "./components/TodoAppByFollowing/context/TodoContextProvider";
 
 const App = () => {
   return (
@@ -40,7 +42,11 @@ const App = () => {
     //   <Parent />
     // </ContextExample>
     // <PlayingWithSetState02 />
-    <ControlledForms1 />
+    // <ControlledForms1 />
+    // <TodoApp />
+    <TodoContextProvider>
+      <TodoApp />
+    </TodoContextProvider>
   );
 };
 

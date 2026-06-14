@@ -5,7 +5,7 @@ import { createContext } from "react";
 //~Step2 === Providing values to the context
 //?Step 3 === Providing the context to the Parent
 export const myStore = createContext();
-console.log(myStore);
+//console.log(myStore);
 
 const ContextExample = (props) => {
   console.log("Props === ", props);
