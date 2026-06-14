@@ -17,6 +17,7 @@ import ContextParent from "./components/ContextRevisionInReact/ContextParent";
 // import Context from "./components/ContextHookAuthentication/Context";
 import Parent from "./components/ContextHookPracticeByFollowing/Parent";
 import ContextExample from "./components/ContextHookPracticeByFollowing/ContextExample";
+import ControlledForms1 from "./components/ControlledFormsWithLocalStorageByFollowing/ControlledForms1";
 
 const App = () => {
   return (
@@ -38,7 +39,8 @@ const App = () => {
     // <ContextExample>
     //   <Parent />
     // </ContextExample>
-    <PlayingWithSetState02 />
+    // <PlayingWithSetState02 />
+    <ControlledForms1 />
   );
 };
 
