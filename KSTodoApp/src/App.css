@@ -1,0 +1,52 @@
+.glitter {
+  color: #fff;
+  background: #262626;
+  position: relative;
+}
+
+.glitter::after,
+.glitter::before {
+  content: "";
+  width: calc(100% + 4px);
+  height: calc(100% + 4px);
+  background: linear-gradient(
+    45deg,
+    #fb0094,
+    #0000ff,
+    #00ff00,
+    #ffff00,
+    #ff0000,
+    #fb0094,
+    #0000ff,
+    #00ff00,
+    #ffff00,
+    #ff0000
+  );
+  background-size: 400%;
+  position: absolute;
+  top: -2px;
+  border-radius: 5px;
+  left: -2px;
+  z-index: -1;
+  animation: animated-shadow 10s linear infinite alternate;
+}
+
+.glitter::after {
+  filter: blur(30px);
+}
+
+.glitters:hover {
+  background: white !important;
+  color: black !important;
+}
+@keyframes animated-shadow {
+  0% {
+    background-position: 0 0;
+  }
+  50% {
+    background-position: 100% 0;
+  }
+  100% {
+    background-position: 0 0;
+  }
+}
