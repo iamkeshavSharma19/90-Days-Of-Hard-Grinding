@@ -12,9 +12,11 @@ import PlayingWithSetState01 from "./components/useStateHookRevision/PlayingWith
 import PlayingWithSetState02 from "./components/useStateHookRevision/PlayingWithSetState02";
 import PlayingWithUseEffectHook from "./components/useStateHookRevision/PlayingWithUseEffectHook";
 
-import ContextProvider from "./components/ContextRevisionInReact/ContextProvider";
+// import ContextProvider from "./components/ContextRevisionInReact/ContextProvider";
 import ContextParent from "./components/ContextRevisionInReact/ContextParent";
-import Context from "./components/ContextHookAuthentication/Context";
+// import Context from "./components/ContextHookAuthentication/Context";
+import Parent from "./components/ContextHookPracticeByFollowing/Parent";
+import ContextExample from "./components/ContextHookPracticeByFollowing/ContextExample";
 
 const App = () => {
   return (
@@ -31,7 +33,11 @@ const App = () => {
     // <ContextProvider>
     //   <ContextParent />
     // </ContextProvider>
-    <Context />
+    // <Context />
+    //?<Parent /> here is a children Props
+    <ContextExample>
+      <Parent />
+    </ContextExample>
   );
 };
 

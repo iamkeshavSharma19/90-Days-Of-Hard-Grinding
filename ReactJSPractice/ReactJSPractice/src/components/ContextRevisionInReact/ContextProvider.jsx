@@ -4,7 +4,7 @@ import ContextParent from "./ContextParent";
 
 export const myStoreContext = createContext();
 
-console.log(myStoreContext);
+//console.log(myStoreContext);
 
 function ContextProvider(props) {
   console.log(props);
