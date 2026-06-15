@@ -9,6 +9,7 @@ const CreateTodo = () => {
     handleDescription,
     handleSaveTask,
     editId,
+    handleClearAllTodos,
   } = useContext(TodoContext);
   return (
     <>
@@ -21,7 +22,6 @@ const CreateTodo = () => {
             placeholder="Add Title Here"
             value={todo}
             onChange={handleTodo}
-            required
           />
         </div>
         <div className="flex flex-col gap-2 m-6 ml-32">
@@ -31,7 +31,6 @@ const CreateTodo = () => {
             rows={3}
             value={description}
             onChange={handleDescription}
-            required
           />
         </div>
         <div className="m-6 ml-32 flex flex-row gap-6">
@@ -44,6 +43,7 @@ const CreateTodo = () => {
           <button
             className="text-white text-xs px-3 py-1 rounded-md glitters glitter"
             style={{ backgroundColor: "#262626" }}
+            onClick={handleClearAllTodos}
           >
             Clear All Tasks
           </button>

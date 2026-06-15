@@ -78,6 +78,21 @@ const TodoContextProvider = (props) => {
     setDescription(ele.description);
   };
 
+  //?Clearing All The todos
+  // Clearing All The Todos
+const handleClearAllTodos = (e) => {
+  e.preventDefault();
+
+  const isConfirmed = confirm(
+    "Do you want to clear all the tasks?"
+  );
+
+  if (isConfirmed) {
+    setAllTodos([]);
+    localStorage.removeItem("todos");
+  }
+};
+
   return (
     <TodoContext.Provider
       value={{
@@ -90,6 +105,7 @@ const TodoContextProvider = (props) => {
         handleDeleteTodo,
         handleEditTodo,
         editId,
+        handleClearAllTodos,
       }}
     >
       {props.children}
