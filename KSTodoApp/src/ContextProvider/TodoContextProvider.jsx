@@ -11,6 +11,8 @@ const TodoContextProvider = (props) => {
     const savedTodos = localStorage.getItem("todos");
     return savedTodos ? JSON.parse(localStorage.getItem("todos")) : [];
   });
+  //?Creating a separate state variable for editing the todos
+  const [editId, setEditId] = useState(null);
   const handleTodo = (e) => {
     setTodo(e.target.value);
   };
@@ -23,6 +25,22 @@ const TodoContextProvider = (props) => {
     e.preventDefault();
     if (!todo || !description) {
       alert("Please fill all the input fields");
+      return;
+    }
+    if (editId) {
+      const todos = [...allTodos];
+      const updatedTodos = todos.map((ele) => {
+        if (ele.id === editId) {
+          return { ...ele, todo, description };
+        } else {
+          return ele;
+        }
+      });
+      setAllTodos(updatedTodos);
+      localStorage.setItem("todos", JSON.stringify(updatedTodos));
+      setTodo("");
+      setDescription("");
+      setEditId(null);
       return;
     }
     const newTodo = {
@@ -43,6 +61,23 @@ const TodoContextProvider = (props) => {
     setDescription("");
   };
 
+  //&deleting the Todo
+  const handleDeleteTodo = (id) => {
+    const todos = [...allTodos];
+
+    const updatedTodos = todos.filter((ele) => ele.id !== id);
+
+    setAllTodos(updatedTodos);
+    localStorage.setItem("todos", JSON.stringify(updatedTodos));
+  };
+
+  //?Updating The Todos
+  const handleEditTodo = (ele) => {
+    setEditId(ele.id);
+    setTodo(ele.todo);
+    setDescription(ele.description);
+  };
+
   return (
     <TodoContext.Provider
       value={{
@@ -52,6 +87,9 @@ const TodoContextProvider = (props) => {
         handleDescription,
         handleSaveTask,
         allTodos,
+        handleDeleteTodo,
+        handleEditTodo,
+        editId,
       }}
     >
       {props.children}

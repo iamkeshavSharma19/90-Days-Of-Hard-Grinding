@@ -2,7 +2,9 @@ import React, { useContext } from "react";
 import { TodoContext } from "../ContextProvider/TodoContextProvider";
 
 const DisplayTodo = () => {
-  const { allTodos } = useContext(TodoContext);
+  const { allTodos, handleDeleteTodo, handleEditTodo } =
+    useContext(TodoContext);
+
   return (
     <>
       <div className="flex flex-row justify-center items-center text-2xl font-bold">
@@ -26,17 +28,6 @@ const DisplayTodo = () => {
 
           {/* All Todos will come here */}
 
-          {/* <tr className="text-[15px] h-8 border-b border-gray-600">
-              <td className="text-left px-4 py-2 border-r border-gray-600">
-                Gym
-              </td>
-
-              <td className="text-left px-4 py-2 border-r border-gray-600">
-                Gym is my life
-              </td>
-
-              <td className="text-left px-4 py-2">Actions</td>
-            </tr> */}
           {allTodos.length !== 0 && (
             <tbody>
               {allTodos.map((ele) => {
@@ -54,10 +45,18 @@ const DisplayTodo = () => {
                     </td>
 
                     <td className="text-left px-4 py-2">
-                      <button className=" text-[14px] px-3 py-1 rounded-md w-20 h-8 bg-white text-black border-2 border-red-500">
+                      <button
+                        className=" text-[14px] px-3 py-1 rounded-md w-20 h-8 bg-white text-black border-2 border-red-500"
+                        onClick={() => {
+                          handleDeleteTodo(ele.id);
+                        }}
+                      >
                         Delete
                       </button>
-                      <button className=" text-[14px] px-3 py-1 rounded-md w-20 h-8 bg-white text-black ml-4 border-2 border-red-500">
+                      <button
+                        className=" text-[14px] px-3 py-1 rounded-md w-20 h-8 bg-white text-black ml-4 border-2 border-red-500"
+                        onClick={() => handleEditTodo(ele)}
+                      >
                         Update
                       </button>
                     </td>

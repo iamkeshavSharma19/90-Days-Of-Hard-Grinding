@@ -2,8 +2,14 @@ import React, { useContext } from "react";
 import { TodoContext } from "../ContextProvider/TodoContextProvider";
 
 const CreateTodo = () => {
-  const { todo, description, handleTodo, handleDescription, handleSaveTask } =
-    useContext(TodoContext);
+  const {
+    todo,
+    description,
+    handleTodo,
+    handleDescription,
+    handleSaveTask,
+    editId,
+  } = useContext(TodoContext);
   return (
     <>
       <form>
@@ -33,7 +39,7 @@ const CreateTodo = () => {
             className="text-white text-xs px-3 py-1 rounded-md w-20 h-9 glitters glitter hover:text-black hover:bg-white bg-[#262626]"
             onClick={handleSaveTask}
           >
-            Save Task
+            {editId ? "Update" : "Save Task"}
           </button>
           <button
             className="text-white text-xs px-3 py-1 rounded-md glitters glitter"
