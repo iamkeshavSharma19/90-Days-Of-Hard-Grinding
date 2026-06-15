@@ -20,6 +20,7 @@ import ContextExample from "./components/ContextHookPracticeByFollowing/ContextE
 import ControlledForms1 from "./components/ControlledFormsWithLocalStorageByFollowing/ControlledForms1";
 import TodoApp from "./components/TodoAppByFollowing/TodoApp";
 import TodoContextProvider from "./components/TodoAppByFollowing/context/TodoContextProvider";
+import TodoList from "./components/TodoList";
 
 const App = () => {
   return (
@@ -44,9 +45,10 @@ const App = () => {
     // <PlayingWithSetState02 />
     // <ControlledForms1 />
     // <TodoApp />
-    <TodoContextProvider>
-      <TodoApp />
-    </TodoContextProvider>
+    // <TodoContextProvider>
+    //   <TodoApp />
+    // </TodoContextProvider>
+    <TodoList />
   );
 };
 
