@@ -1,11 +1,16 @@
+import { Provider } from "react-redux";
+import Body from "./components/Body";
 import Head from "./components/Head";
+import store from "./utils/store";
 
 function App() {
   return (
-    <div>
-      <h1 className="font-bold text-3xl">Namaste Youtube</h1>
-      <Head />
-    </div>
+    <Provider store={store}>
+      <div>
+        <Head />
+        <Body />
+      </div>
+    </Provider>
   );
 }
 
