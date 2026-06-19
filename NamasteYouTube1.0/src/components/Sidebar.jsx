@@ -1,5 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 const Sidebar = () => {
   //?Subscribing to the specific Portion of the Store.
@@ -12,7 +13,9 @@ const Sidebar = () => {
     <div className="p-5 shadow-lg w-48">
       <h1 className="font-bold">Subscriptions</h1>
       <ul>
-        <li>Home</li>
+        <li>
+          <Link to="/">Home</Link>
+        </li>
         <li>Shorts</li>
         <li>Videos</li>
         <li>Live</li>
