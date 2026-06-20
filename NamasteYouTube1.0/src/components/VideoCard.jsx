@@ -17,4 +17,10 @@ const VideoCard = ({ info }) => {
   );
 };
 
+//&There is a function,which takes this VideoCard Component and just returns this <VideoCard /> component once again.This function is basically called as the Higher Order Function or a Higher Order Component.
+
+//~What is the use of the Higher Order Component,Why would I need it?Suppose you want to do the small modification on the top of your Video Card.Suppose I also need a VideoCard with a border.What I will do is I will wrap this returned VideoCard around the div.
+
+
+
 export default VideoCard;

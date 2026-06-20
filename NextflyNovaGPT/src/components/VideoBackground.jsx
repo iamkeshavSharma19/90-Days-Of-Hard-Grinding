@@ -5,7 +5,7 @@ const VideoBackground = ({ movieId, volume }) => {
   // const [trailerId, setTrailerId] = useState(null);
 
   const trailerVideo = useSelector((store) => store.movies?.trailerVideo);
-  console.log(trailerVideo);
+  // console.log(trailerVideo);
   useMovieTrailer(movieId);
   if (!trailerVideo) return null;
   return (

@@ -57,7 +57,7 @@ const GptSearchBar = () => {
       "https://api.themoviedb.org/3/search/movie?query=" +
         movie +
         "&include_adult=false&language=en-US&page=1",
-      API_OPTIONS
+      API_OPTIONS,
     );
 
     const json = await data.json();
@@ -74,7 +74,7 @@ const GptSearchBar = () => {
 
     async function main() {
       const response = await ai.models.generateContent({
-        model: "gemini-2.0-flash",
+        model: "gemini-2.5-flash",
         contents: `You are a Movie Recommendation System.
 
 Task:
@@ -91,30 +91,30 @@ Output format:
         // TODO: Write Error Handling here
       }
 
-      console.log(response.text);
+      // console.log(response.text);
 
       const gptMovies = response.text.split(",");
 
-      console.log(gptMovies);
+      // console.log(gptMovies);
 
       // For each movie I will search TMDB API
 
       // for this i will make a new function and execute it
       const promiseArray = gptMovies.map((movie) =>
-        searchMovieTMDB(movie.trim())
+        searchMovieTMDB(movie.trim()),
       );
       // i will get array of promises
       // [Promise, Promise, Promise, Promise, Promise]
-      console.log(promiseArray);
+      // console.log(promiseArray);
       // Promise.all
       const tmdbResults = await Promise.all(promiseArray);
 
-      console.log(tmdbResults);
+      // console.log(tmdbResults);
       // let us push all these movies to our redux store
 
       // for this I basically have to dispatch an action
       dispatch(
-        addGptMovie({ movieNames: gptMovies, movieResults: tmdbResults })
+        addGptMovie({ movieNames: gptMovies, movieResults: tmdbResults }),
       );
     }
 

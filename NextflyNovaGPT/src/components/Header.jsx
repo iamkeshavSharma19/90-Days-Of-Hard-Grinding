@@ -15,7 +15,7 @@ import { changeLanguage } from "../utils/configSlice";
 
 const Header = () => {
   const { pathname } = useLocation();
-  console.log(pathname);
+  // console.log(pathname);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector((store) => store.user);

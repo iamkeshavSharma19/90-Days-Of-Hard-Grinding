@@ -12,7 +12,7 @@ import GptSearch from "./GptSearch";
 
 const Browse = () => {
   const { pathname } = useLocation();
-  console.log(pathname);
+  // console.log(pathname);
   // calling the custom hook
 
   useNowPlayingMovies();

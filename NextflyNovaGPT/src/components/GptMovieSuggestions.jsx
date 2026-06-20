@@ -5,7 +5,7 @@ const GptMovieSuggestions = () => {
   const gpt = useSelector((store) => store.gpt);
   const { movieResults, movieNames } = gpt;
 
-  console.log(movieResults);
+  // console.log(movieResults);
 
   if (!movieNames) return null;
 

@@ -35,7 +35,7 @@ const Login = () => {
       // name.current.value
     );
 
-    console.log(message);
+    // console.log(message);
     setErrorMessage(message);
 
     if (message) return;
@@ -81,7 +81,7 @@ const Login = () => {
               setErrorMessage(error.message);
             });
           // if my response is successful, then firebase will give me a user object
-          console.log(user);
+          // console.log(user);
           // from here i can push this user information to my redux store
           // let me navigate from here
         })
@@ -101,7 +101,7 @@ const Login = () => {
         .then((userCredential) => {
           // Signed in
           const user = userCredential.user;
-          console.log(user);
+          // console.log(user);
           // navigate("/browse");
         })
         .catch((error) => {

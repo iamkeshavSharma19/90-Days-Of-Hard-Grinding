@@ -35,7 +35,7 @@ const MainContainer = ({ pathname }) => {
   if (!movieToPLay) {
     return;
   }
-  console.log(movieToPLay);
+  // console.log(movieToPLay);
 
   if (!movies) {
     return;

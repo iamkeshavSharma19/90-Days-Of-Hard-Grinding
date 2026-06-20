@@ -22,6 +22,7 @@ const VideoContainer = () => {
   return (
     <div className="flex  flex-wrap ml-20">
       {/* Always Make it work for one and then scale it. */}
+
       {videos.map((video) => (
         <Link to={"/watch?v=" + video.id} key={video.id}>
           <VideoCard info={video} />
