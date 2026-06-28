@@ -15,12 +15,15 @@ import PlayingWithUseEffectHook from "./components/useStateHookRevision/PlayingW
 // import ContextProvider from "./components/ContextRevisionInReact/ContextProvider";
 import ContextParent from "./components/ContextRevisionInReact/ContextParent";
 // import Context from "./components/ContextHookAuthentication/Context";
-import Parent from "./components/ContextHookPracticeByFollowing/Parent";
-import ContextExample from "./components/ContextHookPracticeByFollowing/ContextExample";
+// import Parent from "./components/ContextRevisionByFollowing";
+// import Parent from "./components/ContextHookPracticeByFollowing/Parent";
+// import ContextExample from "./components/ContextHookPracticeByFollowing/ContextExample";
 import ControlledForms1 from "./components/ControlledFormsWithLocalStorageByFollowing/ControlledForms1";
 import TodoApp from "./components/TodoAppByFollowing/TodoApp";
 import TodoContextProvider from "./components/TodoAppByFollowing/context/TodoContextProvider";
 import TodoList from "./components/TodoList";
+import Parent from "./components/ContextRevisionByFollowing/Parent";
+import ContextExample from "./components/ContextRevisionByFollowing/ContextExample";
 
 const App = () => {
   return (
@@ -48,7 +51,10 @@ const App = () => {
     // <TodoContextProvider>
     //   <TodoApp />
     // </TodoContextProvider>
-    <TodoList />
+    // <TodoList />
+    <ContextExample>
+      <Parent />
+    </ContextExample>
   );
 };
 
