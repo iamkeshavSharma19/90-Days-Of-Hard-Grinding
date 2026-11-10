@@ -24,6 +24,10 @@ app.use("/", (req, res) => {
   res.send("Namaste Keshav!");
 });
 
-app.listen(7777, () => {
+app.listen(7777, (err) => {
+  if (err) {
+    console.log(err);
+    return;
+  }
   console.log("Server is successfully listening on port 7777...");
 });

@@ -15,7 +15,7 @@ function Accordion({ items }) {
   };
 
   if (!items || items.length === 0) {
-    return <p>No items available.</p>;
+    return  <p>No items available.</p>;
   }
 
   return (
